@@ -3,6 +3,8 @@
 // Initialise the GitHub class
 const github = new GitHub();
 
+// Initialise the User Class
+const ui = new UI();
 // We need to get the input and add an event listerner to it to trigger a search on entry
 
 // Search Input
@@ -21,15 +23,16 @@ function searchGithubUsers(e) {
   if (userText !== '') {
     // Make HTTP Request
     github.getUser(userText).then(data => {
-      if (data && data.profile && data.profile.message) {
-        if (data.profile.message === 'Not Found') {
-          // Show alert
-        } else {
-          // Show profile
-        }
+      if (data.profile.message === 'Not Found') {
+        // Show alert
+        ui.showAlert('User not found', 'alert alert-danger');
+      } else {
+        // Show profile
+        ui.showProfile(data.profile);
       }
     });
   } else {
     // Clear profile
+    ui.clearProfile();
   }
 }
